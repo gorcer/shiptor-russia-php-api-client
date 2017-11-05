@@ -86,20 +86,26 @@ class Client
         if ($cod != 0 && $cod != $declaredCost) {
             throw new Exception\CodAmountException();
         }
-        if (empty($kladr)) {
+        if (empty($kladrIdTo)) {
             throw new Exception\EmptyKladrException();
         }
-        return new Response\CalculateShippingResponse($this->getRequest()->call('calculateShipping',[
-            'length' => $length,
-            'width' => $width,
-            'height' => $height,
-            'weight' => $weight,
-            'cod' => $cod,
-            'declared_cost' => $declaredCost,
-	        'kladr_id_from' => $kladrIdFrom,
-	        'kladr_id' => $kladrIdTo,
-            'country_code' => $countryCode,
-        ]));
+
+	    $data = [
+		    'length' => $length,
+		    'width' => $width,
+		    'height' => $height,
+		    'weight' => $weight,
+		    'cod' => $cod,
+		    'declared_cost' => $declaredCost,
+		    'kladr_id' => $kladrIdTo,
+		    'country_code' => $countryCode,
+	    ];
+
+	    if (!empty($kladrIdFrom)) {
+		    $data['kladr_id_from'] = $kladrIdFrom;
+	    }
+
+        return new Response\CalculateShippingResponse($this->getRequest()->call('calculateShipping', $data));
     }
 
     /**
