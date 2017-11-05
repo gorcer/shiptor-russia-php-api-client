@@ -75,7 +75,7 @@ class Client
      * @throws Exception\CodAmountException
      * @throws Exception\EmptyKladrException
      */
-    public function calculateShipping($length, $width, $height, $weight, $cod = 0, $declaredCost = 0, $kladr, $countryCode = 'RU')
+    public function calculateShipping($length, $width, $height, $weight, $cod = 0, $declaredCost = 0, $kladrIdFrom, $kladrIdTo, $countryCode = 'RU')
     {
         if (empty($length) || empty($width) || empty($height)) {
             throw new Exception\EmptyDimensionsException();
@@ -96,7 +96,8 @@ class Client
             'weight' => $weight,
             'cod' => $cod,
             'declared_cost' => $declaredCost,
-            'kladr_id' => $kladr,
+	        'kladr_id_from' => $kladrIdFrom,
+	        'kladr_id' => $kladrIdTo,
             'country_code' => $countryCode,
         ]));
     }
